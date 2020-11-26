@@ -16,7 +16,8 @@ code {
   box-sizing: border-box;
 }
 
-h1 {
+h1,
+h2 {
   margin: 0;
 }
 
@@ -26,4 +27,8 @@ button {
   border: none;
   cursor: pointer;
   outline: none;
+}
+
+#root {
+  height: 100vh;
 }
