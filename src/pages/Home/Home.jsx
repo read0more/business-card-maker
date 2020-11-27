@@ -5,7 +5,7 @@ import styles from "./Home.module.css";
 import CardInput from "../../components/CardInput/CardInput";
 import CardPreview from "../../components/CardPreview/CardPreview";
 
-const Home = () => {
+const Home = ({ handleLogout }) => {
   return (
     <>
       <Header />
@@ -24,7 +24,9 @@ const Home = () => {
           <CardPreview />
         </section>
       </main>
-      <button className={styles.logout}>Logout</button>
+      <button className={styles.logout} onClick={handleLogout}>
+        Logout
+      </button>
       <Footer />
     </>
   );
