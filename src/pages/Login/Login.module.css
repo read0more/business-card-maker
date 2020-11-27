@@ -1,4 +1,4 @@
-@value makerWhite, makerGreen from "../../common/colors.css";
+@value makerWhite, makerGreen, makerLightPink from "../../common/colors.css";
 
 .background {
   width: 100vw;
@@ -46,4 +46,8 @@
 
 .button:not(:last-child) {
   margin-bottom: 0.3em;
+}
+
+.button:hover {
+  background-color: makerLightPink;
 }
