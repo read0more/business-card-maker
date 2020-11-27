@@ -1,14 +1,25 @@
 @value makerBlack, makerWhite, makerGreen, makerGrey from "../../common/colors.css";
+@value mediaQuery from "../../common/size.css";
 
 .main {
   display: flex;
   padding: 2em 1em;
   border-right: 1px solid makerGrey;
+  height: calc(100vh - 30%); /* header height 20%, footer height 10% */
 }
 
 .card-maker,
 .card-preview {
   flex: 1 1 0;
+  overflow-y: scroll;
+}
+
+.card-maker {
+  padding-right: 1em;
+}
+
+.card-preview {
+  padding: 0 3em;
 }
 
 .title {
@@ -26,4 +37,14 @@
   right: 30px;
   background-color: makerBlack;
   color: makerWhite;
+}
+
+@media screen and (max-width: mediaQuery) {
+  .main {
+    flex-direction: column;
+  }
+  .card-maker,
+  .card-preview {
+    height: 50%;
+  }
 }

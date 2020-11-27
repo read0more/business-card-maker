@@ -3,6 +3,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Home.module.css";
 import CardInput from "../../components/CardInput/CardInput";
+import CardPreview from "../../components/CardPreview/CardPreview";
 
 const Home = () => {
   return (
@@ -18,6 +19,9 @@ const Home = () => {
         </section>
         <section className={styles["card-preview"]}>
           <h2 className={styles.title}>Card Preview</h2>
+          <CardPreview />
+          <CardPreview />
+          <CardPreview />
         </section>
       </main>
       <button className={styles.logout}>Logout</button>
