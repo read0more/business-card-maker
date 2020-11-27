@@ -1,0 +1,70 @@
+@value makerBlack, makerWhite, makerLightPink, makerGreen from "../../common/colors.css";
+
+.card-input {
+  display: grid;
+  grid-template-areas:
+    "name name company company theme theme"
+    "position position position email email email"
+    "introduce introduce introduce introduce introduce introduce"
+    "file file file delete delete delete";
+  border-top: 1px solid makerBlack;
+  border-left: 1px solid makerBlack;
+  margin-bottom: 1em;
+}
+
+.card-input > * {
+  padding: 0.5em;
+  outline: none;
+  border: none;
+}
+
+.card-input > * {
+  border-right: 1px solid makerBlack;
+  border-bottom: 1px solid makerBlack;
+}
+
+.name {
+  grid-area: name;
+}
+
+.company {
+  grid-area: company;
+}
+
+.theme {
+  grid-area: theme;
+}
+
+.position {
+  grid-area: position;
+}
+
+.email {
+  grid-area: email;
+}
+
+.introduce {
+  grid-area: introduce;
+  outline: none;
+}
+
+.file-label {
+  grid-area: file;
+  cursor: pointer;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
+  background-color: makerLightPink;
+  color: makerBlack;
+}
+
+.file {
+  display: none;
+}
+
+.delete {
+  grid-area: delete;
+  background-color: makerGreen;
+  color: makerWhite;
+  font-weight: 600;
+}
