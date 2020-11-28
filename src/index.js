@@ -1,21 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import firebase from "firebase/app";
 import "./index.css";
 import App from "./App";
+import Firebase from "./service/Firebase";
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-};
-
-firebase.initializeApp(firebaseConfig);
+const firebase = new Firebase();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App firebase={firebase} />
   </React.StrictMode>,
   document.getElementById("root")
 );
