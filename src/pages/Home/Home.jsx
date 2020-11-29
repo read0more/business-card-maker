@@ -20,6 +20,7 @@ const Home = ({ firebase, cloudinary, handleLogout }) => {
       email: "",
       introduce: "",
       filename: "",
+      filepath: "",
     };
 
     firebaseCardsRef.on("value", (snapshot) => {
@@ -61,7 +62,7 @@ const Home = ({ firebase, cloudinary, handleLogout }) => {
         </section>
         <section className={styles["card-preview"]}>
           <h2 className={styles.title}>Card Preview</h2>
-          {cards.map((card) => (
+          {cards.slice(0, -1).map((card) => (
             <CardPreview key={card.id} card={card} />
           ))}
         </section>
