@@ -135,6 +135,12 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
     firebaseCardRef.remove();
   };
 
+  const fileLabelStyles = filename
+    ? styles["file-label"]
+    : `${styles["file-label"]} ${styles["file-label--no-file"]}`;
+
+  console.log(fileLabelStyles);
+
   return (
     <address className={styles["card-maker"]}>
       <input
@@ -181,7 +187,7 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
         ref={introduceRef}
         onChange={handleOnChange(onIntroduceChange, updateFirebaseFromRef)}
       />
-      <label className={styles["file-label"]}>
+      <label className={fileLabelStyles}>
         {filename || "No file"}
         <input
           type="file"

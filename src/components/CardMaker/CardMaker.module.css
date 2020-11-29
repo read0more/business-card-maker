@@ -1,4 +1,4 @@
-@value makerBlack, makerWhite, makerLightPink, makerGreen from "../../common/colors.css";
+@value makerBlack, makerWhite, makerLightGrey, makerLightPink, makerGreen from "../../common/colors.css";
 
 .card-maker {
   display: grid;
@@ -56,6 +56,10 @@
   font-weight: 600;
   background-color: makerLightPink;
   color: makerBlack;
+}
+
+.file-label.file-label--no-file {
+  background-color: makerLightGrey;
 }
 
 .file {
