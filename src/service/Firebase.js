@@ -9,6 +9,7 @@ import {
 } from "../utils";
 
 class Firebase {
+  database;
   loggedInUser;
 
   constructor() {
@@ -21,6 +22,7 @@ class Firebase {
     };
 
     firebase.initializeApp(firebaseConfig);
+    this.database = firebase.database();
     this.loggedInUser = getLoggedInUser();
   }
 
@@ -45,6 +47,14 @@ class Firebase {
     await firebase.auth().signOut();
     removeLoggedInUser();
     this.loggedInUser = null;
+  }
+
+  getUserDatabaseRef() {
+    return this.database.ref(`users/${this.loggedInUser.user_id}`);
+  }
+
+  getUserCardDatabaseRef(cardId) {
+    return this.database.ref(`users/${this.loggedInUser.user_id}/${cardId}`);
   }
 }
 

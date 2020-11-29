@@ -1,24 +1,24 @@
 @value makerBlack, makerWhite, makerLightPink, makerGreen from "../../common/colors.css";
 
-.card-input {
+.card-maker {
   display: grid;
   grid-template-areas:
     "name name company company theme theme"
     "position position position email email email"
     "introduce introduce introduce introduce introduce introduce"
-    "file file file delete delete delete";
+    "file file file button button button";
   border-top: 1px solid makerBlack;
   border-left: 1px solid makerBlack;
   margin-bottom: 1em;
 }
 
-.card-input > * {
+.card-maker > * {
   padding: 0.5em;
   outline: none;
   border: none;
 }
 
-.card-input > * {
+.card-maker > * {
   border-right: 1px solid makerBlack;
   border-bottom: 1px solid makerBlack;
 }
@@ -62,8 +62,8 @@
   display: none;
 }
 
-.delete {
-  grid-area: delete;
+.button {
+  grid-area: button;
   background-color: makerGreen;
   color: makerWhite;
   font-weight: 600;
