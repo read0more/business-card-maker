@@ -4,7 +4,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import { useCallback, useEffect, useState } from "react";
 
-const App = ({ firebase }) => {
+const App = ({ firebase, cloudinary }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -27,7 +27,11 @@ const App = ({ firebase }) => {
         {user ? (
           <>
             <Route path="/home" exact>
-              <Home firebase={firebase} handleLogout={handleLogout} />
+              <Home
+                firebase={firebase}
+                cloudinary={cloudinary}
+                handleLogout={handleLogout}
+              />
             </Route>
             <Redirect from="*" to="/home" />
           </>

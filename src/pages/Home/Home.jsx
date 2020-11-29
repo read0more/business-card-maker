@@ -5,7 +5,7 @@ import styles from "./Home.module.css";
 import CardMaker from "../../components/CardMaker/CardMaker";
 import CardPreview from "../../components/CardPreview/CardPreview";
 
-const Home = ({ firebase, handleLogout }) => {
+const Home = ({ firebase, cloudinary, handleLogout }) => {
   const [cards, setCards] = useState([]);
   const previousChildrenCount = useRef(0);
 
@@ -52,6 +52,7 @@ const Home = ({ firebase, handleLogout }) => {
               <CardMaker
                 key={card.id}
                 firebase={firebase}
+                cloudinary={cloudinary}
                 card={card}
                 isNewCard={index === cards.length - 1}
               />

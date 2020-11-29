@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import useInput from "../../Hooks/useInput";
 import styles from "./CardMaker.module.css";
 
-const CardMaker = ({ firebase, card, isNewCard }) => {
+const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
   const [firebaseCardRef, setFirebaseCardRef] = useState();
   const [name, setName, onNameChange] = useInput(card.name);
   const [company, setComapny, onCompanyChange] = useInput(card.company);
@@ -18,8 +18,23 @@ const CardMaker = ({ firebase, card, isNewCard }) => {
   const emailRef = useRef();
   const introduceRef = useRef();
   const filenameRef = useRef();
+  const filepathRef = useRef();
   const inputFileRef = useRef();
   const isFirstRender = useRef(true);
+
+  const getAllRefsToObject = useCallback(
+    () => ({
+      name: nameRef.current.value,
+      company: companyRef.current.value,
+      theme: themeRef.current.value,
+      position: positionRef.current.value,
+      email: emailRef.current.value,
+      introduce: introduceRef.current.value,
+      filename: filenameRef.current,
+      filepath: filepathRef.current,
+    }),
+    []
+  );
 
   const setStateFromFirebase = useCallback(
     (snapshotValues) => {
@@ -31,6 +46,7 @@ const CardMaker = ({ firebase, card, isNewCard }) => {
         email,
         introduce,
         filename,
+        filepath,
       } = snapshotValues;
 
       setName(name);
@@ -40,6 +56,7 @@ const CardMaker = ({ firebase, card, isNewCard }) => {
       setEmail(email);
       setIntroduce(introduce);
       setFilename(filename);
+      filepathRef.current = filepath;
     },
     [
       setComapny,
@@ -57,19 +74,10 @@ const CardMaker = ({ firebase, card, isNewCard }) => {
       return;
     }
 
-    const updates = {
-      name: nameRef.current.value,
-      company: companyRef.current.value,
-      theme: themeRef.current.value,
-      position: positionRef.current.value,
-      email: emailRef.current.value,
-      introduce: introduceRef.current.value,
-      filename: filenameRef.current.value,
-      // todo: filename 대신 filepath로(cloudinary 경로) 바꾸기
-    };
+    const updates = getAllRefsToObject();
 
     firebaseCardRef.update(updates);
-  }, [firebaseCardRef, isNewCard]);
+  }, [firebaseCardRef, isNewCard, getAllRefsToObject]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -104,23 +112,17 @@ const CardMaker = ({ firebase, card, isNewCard }) => {
   };
 
   const handleFileUploaded = useCallback(() => {
-    let filename = inputFileRef.current.files[0].name;
-    filename = filename.substring(0, filename.lastIndexOf(".")) || filename;
-    filenameRef.current.value = filename;
-    setFilename(filename);
-  }, []);
+    cloudinary.uploadImage(inputFileRef.current.files[0]).then((result) => {
+      const { original_filename: originalFilename, secure_url } = result;
+      setFilename(originalFilename);
+      filenameRef.current = originalFilename;
+      filepathRef.current = secure_url;
+    });
+  }, [cloudinary]);
 
   const handleAdd = () => {
     const newCardRef = firebase.getUserDatabaseRef().push();
-    newCardRef.set({
-      name,
-      company,
-      theme,
-      position,
-      email,
-      introduce,
-      filename,
-    });
+    newCardRef.set(getAllRefsToObject());
   };
 
   const handleDelete = () => {
@@ -175,7 +177,6 @@ const CardMaker = ({ firebase, card, isNewCard }) => {
       />
       <label className={styles["file-label"]}>
         {filename || "No file"}
-        <input type="hidden" ref={filenameRef} />
         <input
           type="file"
           className={styles.file}
