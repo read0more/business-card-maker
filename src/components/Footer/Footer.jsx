@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import styles from "./Footer.module.css";
 
-const Footer = () => <footer className={styles.footer}></footer>;
+const Footer = memo(() => <footer className={styles.footer}></footer>);
 
 export default Footer;

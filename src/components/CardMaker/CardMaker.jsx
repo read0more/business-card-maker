@@ -105,14 +105,14 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
     });
   }, [card.id, firebase, isNewCard, setDataFromFirebase]);
 
-  const handleOnChange = (onChange, afterOnChangeCallback) => {
+  const handleOnChange = useCallback((onChange, afterOnChangeCallback) => {
     return (event) => {
       (async () => {
         await onChange(event);
         afterOnChangeCallback();
       })();
     };
-  };
+  }, []);
 
   const handleFileUploaded = useCallback(() => {
     return (async () => {
@@ -126,20 +126,18 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
     })();
   }, [cloudinary]);
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     const newCardRef = firebase.getUserDatabaseRef().push();
     newCardRef.set(getAllRefsToObject());
-  };
+  }, [firebase, getAllRefsToObject]);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     firebaseCardRef.remove();
-  };
+  }, [firebaseCardRef]);
 
   const fileLabelStyles = filename
     ? styles["file-label"]
     : `${styles["file-label"]} ${styles["file-label--no-file"]}`;
-
-  console.log(fileLabelStyles);
 
   return (
     <address className={styles["card-maker"]}>

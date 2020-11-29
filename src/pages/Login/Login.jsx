@@ -1,20 +1,18 @@
-import React, { useCallback } from "react";
+import React from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Login.module.css";
 
 const Login = ({ firebase, handleLogin }) => {
-  const loginGoogle = useCallback(() => {
-    firebase.loginGoogle().then(() => {
-      handleLogin(firebase.loggedInUser);
-    });
-  }, [handleLogin, firebase]);
+  const loginGoogle = async () => {
+    await firebase.loginGoogle();
+    handleLogin(firebase.loggedInUser);
+  };
 
-  const loginGithub = useCallback(() => {
-    firebase.loginGithub().then(() => {
-      handleLogin(firebase.loggedInUser);
-    });
-  }, [handleLogin, firebase]);
+  const loginGithub = async () => {
+    await firebase.loginGithub();
+    handleLogin(firebase.loggedInUser);
+  };
 
   return (
     <>
