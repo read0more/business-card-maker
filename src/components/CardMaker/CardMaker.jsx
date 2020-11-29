@@ -17,8 +17,8 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
   const positionRef = useRef();
   const emailRef = useRef();
   const introduceRef = useRef();
-  const filenameRef = useRef();
-  const filepathRef = useRef();
+  const filenameRef = useRef("");
+  const filepathRef = useRef("");
   const inputFileRef = useRef();
   const isFirstRender = useRef(true);
 
@@ -36,7 +36,7 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
     []
   );
 
-  const setStateFromFirebase = useCallback(
+  const setDataFromFirebase = useCallback(
     (snapshotValues) => {
       const {
         name,
@@ -56,6 +56,7 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
       setEmail(email);
       setIntroduce(introduce);
       setFilename(filename);
+      filenameRef.current = filename;
       filepathRef.current = filepath;
     },
     [
@@ -100,24 +101,29 @@ const CardMaker = ({ firebase, card, cloudinary, isNewCard }) => {
         return;
       }
 
-      setStateFromFirebase(snapshotValues);
+      setDataFromFirebase(snapshotValues);
     });
-  }, [card.id, firebase, isNewCard, setStateFromFirebase]);
+  }, [card.id, firebase, isNewCard, setDataFromFirebase]);
 
   const handleOnChange = (onChange, afterOnChangeCallback) => {
     return (event) => {
-      onChange(event);
-      afterOnChangeCallback();
+      (async () => {
+        await onChange(event);
+        afterOnChangeCallback();
+      })();
     };
   };
 
   const handleFileUploaded = useCallback(() => {
-    cloudinary.uploadImage(inputFileRef.current.files[0]).then((result) => {
-      const { original_filename: originalFilename, secure_url } = result;
+    return (async () => {
+      const {
+        original_filename: originalFilename,
+        secure_url,
+      } = await cloudinary.uploadImage(inputFileRef.current.files[0]);
       setFilename(originalFilename);
       filenameRef.current = originalFilename;
       filepathRef.current = secure_url;
-    });
+    })();
   }, [cloudinary]);
 
   const handleAdd = () => {
