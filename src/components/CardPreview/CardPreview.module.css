@@ -1,4 +1,4 @@
-@value makerWhite, makerWheat,makerLightGrey from "../../common/colors.css";
+@value makerWhite, makerBlack, makerColorful, makerWheat, makerLightGrey from "../../common/colors.css";
 
 .card-preview {
   height: 250px;
@@ -10,10 +10,26 @@
   border-radius: 15px;
 }
 
+.card-preview.card-preview--light {
+  background-color: makerWhite;
+  color: makerBlack;
+}
+
+.card-preview.card-preview--dark {
+  background-color: makerBlack;
+  color: makerWhite;
+}
+
+.card-preview.card-preview--colorful {
+  background-image: makerColorful;
+  color: makerWhite;
+}
+
 .card-preview img {
   margin-right: 2em;
   min-width: 0;
   width: 50%;
+  border-radius: 50%;
 }
 
 .card-data {
