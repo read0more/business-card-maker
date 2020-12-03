@@ -1,36 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Login.module.css";
+import { useHistory } from "react-router-dom";
 
-const Login = ({ firebase, handleLogin }) => {
-  const loginGoogle = async () => {
-    await firebase.loginGoogle();
-    handleLogin(firebase.loggedInUser);
+const Login = ({ authService }) => {
+  const history = useHistory();
+  const goToHome = (userId) => {
+    history.push({
+      pathname: "/home",
+      state: { id: userId },
+    });
   };
 
-  const loginGithub = async () => {
-    await firebase.loginGithub();
-    handleLogin(firebase.loggedInUser);
+  const onLogin = (event) => {
+    authService
+      .login(event.currentTarget.textContent)
+      .then((data) => goToHome(data.user.uid));
   };
+
+  useEffect(() => {
+    authService.onAuthChange((user) => {
+      user && goToHome(user.uid);
+    });
+  });
 
   return (
-    <>
-      <div className={styles.background}></div>
-      <section className={styles.container}>
-        <Header />
-        <div className={styles["login-box"]}>
-          <h1 className={styles.title}>Login</h1>
-          <button className={styles.button} onClick={loginGoogle}>
-            Google
-          </button>
-          <button className={styles.button} onClick={loginGithub}>
-            Github
-          </button>
-        </div>
-        <Footer />
+    <section className={styles.login}>
+      <Header />
+      <section>
+        <h1 className={styles.title}>Login</h1>
+        <ul className={styles.list}>
+          <li className={styles.item}>
+            <button className={styles.button} onClick={onLogin}>
+              Google
+            </button>
+          </li>
+          <li className={styles.item}>
+            <button className={styles.button} onClick={onLogin}>
+              Github
+            </button>
+          </li>
+        </ul>
       </section>
-    </>
+      <Footer />
+    </section>
   );
 };
 

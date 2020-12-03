@@ -1,50 +1,22 @@
-@value makerWhite, makerBlack, makerColorful, makerWheat, makerLightGrey from "../../common/colors.css";
+@value makerGreen from '/src/common/colors.css';
 
-.card-preview {
-  height: 250px;
-  display: flex;
-  font-style: normal;
-  padding: 2em;
-  margin-bottom: 1em;
-  box-shadow: 10px 10px 10px -4px makerLightGrey;
-  border-radius: 15px;
+.preview {
+  flex-basis: 50%;
+  overflow-y: auto;
 }
 
-.card-preview.card-preview--light {
-  background-color: makerWhite;
-  color: makerBlack;
-}
-
-.card-preview.card-preview--dark {
-  background-color: makerBlack;
-  color: makerWhite;
-}
-
-.card-preview.card-preview--colorful {
-  background-image: makerColorful;
-  color: makerWhite;
-}
-
-.card-preview img {
-  margin-right: 2em;
-  min-width: 0;
-  width: 50%;
-  border-radius: 50%;
-}
-
-.card-data {
+.title {
   width: 100%;
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 1em 0;
+  color: makerGreen;
 }
 
-.card-data h2 {
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-.card-data p {
-  margin: 0.5em 0;
-}
-
-.card-data hr {
-  border-color: makerWheat;
+.cards {
+  width: 100%;
+  padding: 0.5em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

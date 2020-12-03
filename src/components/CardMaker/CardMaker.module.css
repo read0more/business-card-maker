@@ -1,74 +1,16 @@
-@value makerBlack, makerWhite, makerLightGrey, makerLightPink, makerGreen from "../../common/colors.css";
+@value makerGreen, makerLightGrey from '/src/common/colors.css';
 
-.card-maker {
-  display: grid;
-  grid-template-areas:
-    "name name company company theme theme"
-    "position position position email email email"
-    "introduce introduce introduce introduce introduce introduce"
-    "file file file button button button";
-  border-top: 1px solid makerBlack;
-  border-left: 1px solid makerBlack;
-  margin-bottom: 1em;
+.maker {
+  flex-basis: 50%;
+  border-right: 1px solid makerLightGrey;
+  padding: 0.5em 2em;
+  overflow-y: auto;
 }
 
-.card-maker > * {
-  padding: 0.5em;
-  outline: none;
-  border: none;
-}
-
-.card-maker > * {
-  border-right: 1px solid makerBlack;
-  border-bottom: 1px solid makerBlack;
-}
-
-.name {
-  grid-area: name;
-}
-
-.company {
-  grid-area: company;
-}
-
-.theme {
-  grid-area: theme;
-}
-
-.position {
-  grid-area: position;
-}
-
-.email {
-  grid-area: email;
-}
-
-.introduce {
-  grid-area: introduce;
-  outline: none;
-}
-
-.file-label {
-  grid-area: file;
-  cursor: pointer;
+.title {
+  width: 100%;
+  font-size: 2.5rem;
   text-align: center;
-  font-style: normal;
-  font-weight: 600;
-  background-color: makerLightPink;
-  color: makerBlack;
-}
-
-.file-label.file-label--no-file {
-  background-color: makerLightGrey;
-}
-
-.file {
-  display: none;
-}
-
-.button {
-  grid-area: button;
-  background-color: makerGreen;
-  color: makerWhite;
-  font-weight: 600;
+  margin-bottom: 1em;
+  color: makerGreen;
 }

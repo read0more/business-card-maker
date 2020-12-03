@@ -1,0 +1,66 @@
+@value makerBlack, makerWhite, makerGreen from '/src/common/colors.css';
+
+.form {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    "name name company company theme theme"
+    "title title title email email email"
+    "message message message message message message"
+    "file file file submit submit submit";
+  margin-bottom: 1em;
+  border-top: 1px solid makerBlack;
+  border-left: 1px solid makerBlack;
+}
+
+.name,
+.company,
+.theme,
+.title,
+.email,
+.message,
+.fileInput,
+.submit {
+  font-size: 0.8rem;
+  width: 100%;
+  border: 0;
+  padding: 0.5em;
+  border-bottom: 1px solid makerBlack;
+  border-right: 1px solid makerBlack;
+  background: makerWhite;
+}
+
+.name {
+  grid-area: name;
+}
+
+.company {
+  grid-area: company;
+}
+
+.theme {
+  grid-area: theme;
+}
+
+.title {
+  grid-area: title;
+}
+
+.email {
+  grid-area: email;
+}
+
+.message {
+  grid-area: message;
+  outline: none;
+}
+
+.fileInput {
+  grid-area: file;
+  padding: 0;
+}
+
+.submit {
+  grid-area: submit;
+  padding: 0;
+}

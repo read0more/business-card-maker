@@ -1,9 +1,9 @@
 import sha256 from "sha256";
 
-class Cloudinary {
+class ImageUploader {
   url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
 
-  async uploadImage(file) {
+  async upload(file) {
     const formData = new FormData();
     const timestamp = Date.now() / 1000;
     const signature = sha256(
@@ -22,4 +22,4 @@ class Cloudinary {
   }
 }
 
-export default Cloudinary;
+export default ImageUploader;
