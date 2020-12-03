@@ -1,50 +1,28 @@
-import "./App.css";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
-import { useEffect, useState } from "react";
+import styles from "./App.module.css";
 
-const App = ({ firebase, cloudinary }) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const loggedInUser = firebase.loggedInUser;
-    loggedInUser && setUser(loggedInUser);
-  }, [firebase.loggedInUser]);
-
-  const handleLogin = (loggedInUser) => {
-    setUser(loggedInUser);
-  };
-
-  const handleLogout = () => {
-    firebase.signOut();
-    setUser(null);
-  };
-
+const App = ({ FileInput, authService, cardRepository }) => {
   return (
-    <BrowserRouter>
-      <Switch>
-        {user ? (
-          <>
-            <Route path="/home" exact>
-              <Home
-                firebase={firebase}
-                cloudinary={cloudinary}
-                handleLogout={handleLogout}
-              />
-            </Route>
-            <Redirect from="*" to="/home" />
-          </>
-        ) : (
-          <>
-            <Route path="/" exact>
-              <Login firebase={firebase} handleLogin={handleLogin} />
-            </Route>
-            <Redirect from="*" to="/" />
-          </>
-        )}
-      </Switch>
-    </BrowserRouter>
+    <div className={styles.app}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact>
+            <Login FileInput={FileInput} authService={authService} />
+          </Route>
+          <Route path="/home" exact>
+            <Home
+              FileInput={FileInput}
+              authService={authService}
+              cardRepository={cardRepository}
+            />
+          </Route>
+          <Redirect from="*" to="/" />
+        </Switch>
+      </BrowserRouter>
+    </div>
   );
 };
 

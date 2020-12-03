@@ -1,77 +1,77 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Home.module.css";
 import CardMaker from "../../components/CardMaker/CardMaker";
 import CardPreview from "../../components/CardPreview/CardPreview";
+import { useHistory } from "react-router-dom";
 
-const Home = ({ firebase, cloudinary, handleLogout }) => {
-  const [cards, setCards] = useState([]);
-  const previousChildrenCount = useRef(0);
+const Home = ({ FileInput, authService, cardRepository }) => {
+  const historyState = useHistory().state;
+  const [userId, setUserId] = useState(historyState && historyState.id);
+  const [cards, setCards] = useState({});
+
+  const history = useHistory();
+  const onLogout = useCallback(() => {
+    authService.logout();
+  }, [authService]);
 
   useEffect(() => {
-    const firebaseCardsRef = firebase.getUserDatabaseRef();
-    const emptyCard = {
-      id: Date.now(),
-      name: "",
-      company: "",
-      theme: "light",
-      position: "",
-      email: "",
-      introduce: "",
-      filename: "",
-      filepath: "",
-    };
+    if (!userId) {
+      return;
+    }
 
-    firebaseCardsRef.on("value", (snapshot) => {
-      const newCards = [];
-      const snapshotValue = snapshot.val();
-      const childrenCount = snapshot.numChildren();
-
-      for (let key in snapshotValue) {
-        newCards.push({ id: key, ...snapshotValue[key] });
-      }
-
-      if (previousChildrenCount.current < childrenCount) {
-        emptyCard.id = Date.now();
-      }
-      previousChildrenCount.current = childrenCount;
-
-      newCards.push(emptyCard);
-      setCards(newCards);
+    const stopSync = cardRepository.syncCards(userId, (cards) => {
+      setCards(cards);
     });
-  }, [firebase]);
 
+    return () => stopSync();
+  }, [userId, cardRepository]);
+
+  useEffect(() => {
+    authService.onAuthChange((user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        history.push("/");
+      }
+    });
+  }, [authService, userId, history]);
+
+  const createOrUpdateCard = (card) => {
+    setCards((cards) => {
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
+
+    cardRepository.saveCard(userId, card);
+  };
+
+  const deleteCard = (card) => {
+    setCards((cards) => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
+
+    cardRepository.removeCard(userId, card);
+  };
   return (
-    <>
-      <Header />
-      <main className={styles.main}>
-        <section className={styles["card-maker"]}>
-          <h2 className={styles.title}>Card Maker</h2>
-          {cards.map((card, index) => {
-            return (
-              <CardMaker
-                key={card.id}
-                firebase={firebase}
-                cloudinary={cloudinary}
-                card={card}
-                isNewCard={index === cards.length - 1}
-              />
-            );
-          })}
-        </section>
-        <section className={styles["card-preview"]}>
-          <h2 className={styles.title}>Card Preview</h2>
-          {cards.slice(0, -1).map((card) => (
-            <CardPreview key={card.id} card={card} />
-          ))}
-        </section>
-      </main>
-      <button className={styles.logout} onClick={handleLogout}>
-        Logout
-      </button>
+    <section className={styles.home}>
+      <Header onLogout={onLogout} />
+      <div className={styles.container}>
+        <CardMaker
+          FileInput={FileInput}
+          cards={cards}
+          addCard={createOrUpdateCard}
+          updateCard={createOrUpdateCard}
+          deleteCard={deleteCard}
+        />
+        <CardPreview cards={cards} />
+      </div>
       <Footer />
-    </>
+    </section>
   );
 };
 
