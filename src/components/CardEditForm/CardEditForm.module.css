@@ -53,6 +53,8 @@
 .message {
   grid-area: message;
   outline: none;
+  font-family: inherit;
+  resize: vertical;
 }
 
 .fileInput {
