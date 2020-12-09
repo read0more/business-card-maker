@@ -32,13 +32,15 @@ const Home = ({ FileInput, authService, cardRepository }) => {
   }, [userId, cardRepository]);
 
   useEffect(() => {
-    authService.onAuthChange((user) => {
+    const unSubscribe = authService.onAuthChange((user) => {
       if (user) {
         setUserId(user.uid);
       } else {
         history.push("/");
       }
     });
+
+    return () => unSubscribe();
   }, [authService, userId, history]);
 
   const createOrUpdateCard = (card) => {

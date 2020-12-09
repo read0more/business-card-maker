@@ -11,9 +11,11 @@ class AuthService {
   }
 
   onAuthChange(onUserChanged) {
-    firebaseAuth.onAuthStateChanged((user) => {
+    const unSubscribe = firebaseAuth.onAuthStateChanged((user) => {
       onUserChanged(user);
     });
+
+    return unSubscribe;
   }
 
   getProvider(providerName) {
