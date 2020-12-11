@@ -30,6 +30,6 @@ Card Preview의 명함에 커서를 올리면 보이는 아이콘을 클릭해 �
 - Cloudinary
 
 [1]: https://kind-murdock-f6d447.netlify.app
-[2]: https://raw.githubusercontent.com/read0more/business-card-maker/public/images/demo/demo1.jpg
-[3]: https://raw.githubusercontent.com/read0more/business-card-maker/public/images/demo/demo2.gif
-[4]: https://raw.githubusercontent.com/read0more/business-card-maker/public/images/demo/demo3.jpg
+[2]: https://raw.githubusercontent.com/read0more/business-card-maker/master/public/images/demo/demo1.jpg
+[3]: https://raw.githubusercontent.com/read0more/business-card-maker/master/public/images/demo/demo2.gif
+[4]: https://raw.githubusercontent.com/read0more/business-card-maker/master/public/images/demo/demo3.jpg
