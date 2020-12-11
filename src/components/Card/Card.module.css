@@ -2,9 +2,9 @@
 
 .card {
   display: flex;
+  position: relative;
   align-items: center;
   width: 100%;
-  border-radius: 1em;
   margin-bottom: 0.5em;
   padding: 0.2em 0;
   background-color: yellow;
@@ -63,4 +63,16 @@
   height: 2px;
   background-color: makerWheat;
   transform: translateY(0.5em);
+}
+
+.icon {
+  display: none;
+}
+
+.card:hover .icon {
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  top: 2em;
+  right: 1em;
 }

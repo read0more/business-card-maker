@@ -5,11 +5,13 @@ import styles from "./Home.module.css";
 import CardMaker from "../../components/CardMaker/CardMaker";
 import CardPreview from "../../components/CardPreview/CardPreview";
 import { useHistory } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 
 const Home = ({ FileInput, authService, cardRepository }) => {
   const historyState = useHistory().state;
   const [userId, setUserId] = useState(historyState && historyState.id);
   const [cards, setCards] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const history = useHistory();
   const onLogout = useCallback(() => {
@@ -23,19 +25,22 @@ const Home = ({ FileInput, authService, cardRepository }) => {
 
     const stopSync = cardRepository.syncCards(userId, (cards) => {
       setCards(cards);
+      setLoading(false);
     });
 
     return () => stopSync();
   }, [userId, cardRepository]);
 
   useEffect(() => {
-    authService.onAuthChange((user) => {
+    const unSubscribe = authService.onAuthChange((user) => {
       if (user) {
         setUserId(user.uid);
       } else {
         history.push("/");
       }
     });
+
+    return () => unSubscribe();
   }, [authService, userId, history]);
 
   const createOrUpdateCard = (card) => {
@@ -61,14 +66,20 @@ const Home = ({ FileInput, authService, cardRepository }) => {
     <section className={styles.home}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <CardMaker
-          FileInput={FileInput}
-          cards={cards}
-          addCard={createOrUpdateCard}
-          updateCard={createOrUpdateCard}
-          deleteCard={deleteCard}
-        />
-        <CardPreview cards={cards} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <CardMaker
+              FileInput={FileInput}
+              cards={cards}
+              addCard={createOrUpdateCard}
+              updateCard={createOrUpdateCard}
+              deleteCard={deleteCard}
+            />
+            <CardPreview cards={cards} />
+          </>
+        )}
       </div>
       <Footer />
     </section>
